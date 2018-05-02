@@ -1,0 +1,98 @@
+allowed_directions = ["north", "south", "east", "west",]
+
+# 4:0 means if I type north when I am in room 4, I get to room 0
+# Example map for the compass below looks like this:
+
+#------------------------------------------------------------------------------------------                                 
+#|    1    |     2     |     3     |      4      |     5     |      6      |       7      |
+#------------------------------------------------------------------------------------------
+#|    8    |     9     |     10    |      11     |     12    |      13     |       14     |
+#------------------------------------------------------------------------------------------
+#|    15   |     16    |     17    |      18     |     19    |      20     |       21     |
+#------------------------------------------------------------------------------------------
+#
+#Meine hilfe um einen Raum ein zu programmieren siehe unten...
+#
+#   |
+#  \ /
+
+north = {1:None, 2:None, 3:None, 4:None, 5:None, 6:None, 7:None, 8:1, 9:2, 10:3, 11:4, 12:5, 13:6, 14:7,15:8, 16:9, 17:10, 18:11, 19:12, 20:13, 21:14}
+
+south = {1:8, 2:9, 3:10, 4:11, 5:12, 6:13, 7:14, 8:15, 9:16, 10:17, 11:18, 12:19, 13:20, 14:21,15:None, 16:None, 17:None, 18:None, 19:None, 20:None, 21:None}
+
+east =  {1:2, 2:3, 3:4, 4:5, 5:6, 6:7, 7:8, 8:9, 9:10, 10:11, 11:12, 12:13, 13:14, 14:15,15:16, 16:17, 17:18, 18:19, 19:20, 20:21, 21:None}
+
+west = {1:None, 2:1, 3:2, 4:3, 5:4, 6:5, 7:6, 8:None, 9:8, 10:9, 11:10, 12:11, 13:12, 14:13, 15:None, 16:15, 17:16, 18:17, 19:18}
+
+# Put the directions into a compass dictionary
+
+compass = { "north": north, "south": south, "east": east, "west": west,}
+
+
+
+# Write the description of each room next to its number
+
+#description = {
+#              1: "You are in room 1. You can go south or west",
+#              2: "You are in room 2. You can go north",
+#              3: "You are in room 3. You can go north or east",
+#              4: "You are in room 4. You can go west or north",
+#              5: "You are in room 5. You can go north, east or south",
+#              6: "You are in room 6. You can go south or west",
+#              7: "You are in room 7. You can go north, east or south",
+#              8: "You are in room 8. You can go south",
+#              9: "You are in room 9. You can go north or west",
+#             10: "You are in room 10. You can go north",
+#              11: "You are in the final room",
+#              12: "You are not in the final room",
+#              13: "You are in room 13. You can go south or west",
+#
+#
+#
+#            }
+
+
+
+
+
+# Put in the number of the room you want them to start in
+
+current_room = 1
+
+# Put in the number of the final room
+
+final_room = None
+
+
+# ------------------------------------------------------------
+# Code to move around the map
+# ------------------------------------------------------------
+where_next = ""
+
+# Keep asking them which direction to go in
+while( current_room is not None ):
+
+    # Describe the current room
+    # Access the dictionary with dictionary_name[lookup_value]
+    print ( description[current_room] )
+
+    # Ask what they want to do and validate it (north, south, east, west only)  
+    where_next = input("Which direction do you want to go? ").lower()
+    while where_next not in allowed_directions:
+        where_next = input("Which direction do you want to go? ").lower()
+
+    # Look up whether a path that way exists and if so, go to that room
+    if compass[where_next][current_room] is not None:
+
+        current_room = compass[where_next][current_room]
+        
+        # See if they are in the final room
+        if current_room == final_room:
+            current_room = None # Ends the game loop
+            print("You found the final room")
+
+    else:
+        print ("---There is no path in that direction---")
+
+
+
